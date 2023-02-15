@@ -28,7 +28,21 @@ def translate_sequence(rna_sequence, genetic_code):
     str
         A string of the translated amino acids.
     """
-    pass
+    if len(rna_sequence) < 3:
+        return ""
+
+    amino_acid_sequence = ""
+    for i in range(0, len(rna_sequence) - 2, 3):
+        codon = rna_sequence[i:i+3]
+        amino_acid = genetic_code.get(codon, "")
+        if amino_acid == "*":
+            break
+        amino_acid_sequence += amino_acid
+
+    if amino_acid_sequence and amino_acid_sequence[0] == "*":
+        return ""
+    else:
+        return amino_acid_sequence
 
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
@@ -61,7 +75,46 @@ def get_all_translations(rna_sequence, genetic_code):
         A list of strings; each string is an sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+    # Define list to store possible amino acid sequences
+    amino_acid_sequences = []
+    
+    # Iterate over all possible reading frames
+    for frame in range(3):
+        # Extract subsequence for current reading frame
+        sub_sequence = rna_sequence[frame:]
+        
+        # Check if subsequence is long enough to encode an amino acid
+        if len(sub_sequence) < 3:
+            continue
+        
+        # Iterate over all codons in subsequence
+        i = 0
+        amino_acid_sequence = ""
+        while i < len(sub_sequence) - 2:
+            codon = sub_sequence[i:i+3]
+            amino_acid = genetic_code.get(codon, None)
+            
+            # If current codon is a start codon, start a new amino acid sequence
+            if amino_acid == "M":
+                amino_acid_sequence = amino_acid
+            
+            # If amino acid sequence is not empty and current codon is a stop codon, add sequence to list
+            elif amino_acid == "*":
+                if len(amino_acid_sequence) > 0:
+                    amino_acid_sequences.append(amino_acid_sequence)
+                    amino_acid_sequence = ""
+            
+            # If amino acid sequence is not empty and current codon is not a stop codon, add amino acid to sequence
+            elif len(amino_acid_sequence) > 0:
+                amino_acid_sequence += amino_acid
+            
+            i += 3
+        
+        # Check if last codon in subsequence is a stop codon, and add sequence to list if necessary
+        if amino_acid_sequence and amino_acid_sequence[-1] != "*":
+            amino_acid_sequences.append(amino_acid_sequence)
+    
+    return amino_acid_sequences
 
 def get_reverse(sequence):
     """Reverse orientation of `sequence`.
@@ -82,11 +135,6 @@ def get_reverse(sequence):
 
 
 def get_complement(sequence):
-#   if sequence:
-#        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
-#        return ''.join([complement[base] for base in sequence])
-#        else:
-#        print("")
     """Get the complement of a `sequence` of nucleotides.
     Returns a string with the complementary sequence of `sequence`.
     If `sequence` is empty, an empty string is returned.
@@ -95,15 +143,14 @@ def get_complement(sequence):
     >>> get_complement('AUGC')
     'UACG'
     """
-    pass
+    if  sequence:
+        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+        return ''.join([complement[base] for base in sequence])
+    else:
+         return ""
 
 
 def reverse_and_complement(sequence):
-#    if sequence:
- #       complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
-  #      return ''.join(complement[base] for base in sequence])[::-1]
-   #     else:
-    #    print("")
     """Get the reversed and complemented form of a `sequence` of nucleotides.
     Returns a string that is the reversed and complemented sequence
     of `sequence`.
@@ -113,7 +160,11 @@ def reverse_and_complement(sequence):
     >>> reverse_and_complement('AUGC')
     'GCAU'
     """
-    pass
+    if sequence:
+        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+        return ''.join(complement[base] for base in sequence)[::-1]
+    else:
+            return ""
 
 def get_longest_peptide(rna_sequence, genetic_code):
     """Get the longest peptide encoded by an RNA sequence.
@@ -142,7 +193,32 @@ def get_longest_peptide(rna_sequence, genetic_code):
         A string of the longest sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+    # Initialize variables
+    longest_peptide = ""
+    codon_length = 3
+     # Explore all six reading frames
+    for frame in range(6):
+        # Determine the RNA sequence and reading direction
+        if frame < 3:
+            rna = rna_sequence[frame:]
+            direction = 1
+        else:
+            rna = reverse_and_complement(rna_sequence)[frame-3:]
+            direction = -1
+
+        # Translate the RNA sequence into amino acids
+        peptide = ""
+        for i in range(0, len(rna), codon_length):
+            codon = rna[i:i+codon_length]
+            amino_acid = genetic_code.get(codon.upper(), "*")
+            if amino_acid == "*":
+                break
+            peptide += amino_acid
+        
+        if len(peptide) > len(longest_peptide):
+            longest_peptide = peptide
+
+    return longest_peptide
 
 
 if __name__ == '__main__':
