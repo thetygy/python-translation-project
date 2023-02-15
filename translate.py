@@ -63,26 +63,57 @@ def get_all_translations(rna_sequence, genetic_code):
     """
     pass
 
-def get_reverse(sequence=None):
-     if sequence:
-        return sequence[::-1]
-    else:
-        print("")
+def get_reverse(sequence):
+    """Reverse orientation of `sequence`.
+    Returns a string with `sequence` in the reverse order.
+    If `sequence` is empty, an empty string is returned.
+    Examples
+    --------
+    >>> get_reverse('AUGC')
+    'CGUA'
+    """
+    reverse = sequence[::-1]
+    reverse = reverse.upper()
+    return sequence[::-1]
+    # if sequence:
+    #    return sequence[::-1]
+    #    else:
+    #    print("")
 
 
-def get_complement(sequence=None):
-   if sequence:
-        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
-        return ''.join([complement[base] for base in sequence])
-    else:
-        print("")
+def get_complement(sequence):
+#   if sequence:
+#        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+#        return ''.join([complement[base] for base in sequence])
+#        else:
+#        print("")
+    """Get the complement of a `sequence` of nucleotides.
+    Returns a string with the complementary sequence of `sequence`.
+    If `sequence` is empty, an empty string is returned.
+    Examples
+    --------
+    >>> get_complement('AUGC')
+    'UACG'
+    """
+    pass
 
-def reverse_and_complement(sequence=None):
-    if sequence:
-        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
-        return ''.join(complement[base] for base in sequence])[::-1]
-    else:
-        print("")
+
+def reverse_and_complement(sequence):
+#    if sequence:
+ #       complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+  #      return ''.join(complement[base] for base in sequence])[::-1]
+   #     else:
+    #    print("")
+    """Get the reversed and complemented form of a `sequence` of nucleotides.
+    Returns a string that is the reversed and complemented sequence
+    of `sequence`.
+    If `sequence` is empty, an empty string is returned.
+    Examples
+    --------
+    >>> reverse_and_complement('AUGC')
+    'GCAU'
+    """
+    pass
 
 def get_longest_peptide(rna_sequence, genetic_code):
     """Get the longest peptide encoded by an RNA sequence.
