@@ -34,7 +34,7 @@ def translate_sequence(rna_sequence, genetic_code):
     amino_acid_sequence = ""
     for i in range(0, len(rna_sequence) - 2, 3):
         codon = rna_sequence[i:i+3]
-        amino_acid = genetic_code.get(codon, "")
+        amino_acid = genetic_code.get(codon.upper(),"")
         if amino_acid == "*":
             break
         amino_acid_sequence += amino_acid
@@ -142,10 +142,12 @@ def get_complement(sequence):
     --------
     >>> get_complement('AUGC')
     'UACG'
+    REVIEW
     """
     if  sequence:
-        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
-        return ''.join([complement[base] for base in sequence])
+        complement = {'A': 'U', 'C': 'G', 'G': 'C', 'U': 'A'}
+        rna_complement = "".join([complement[base] for base in sequence])
+        return rna_complement
     else:
          return ""
 
@@ -159,9 +161,10 @@ def reverse_and_complement(sequence):
     --------
     >>> reverse_and_complement('AUGC')
     'GCAU'
+    REVIEW
     """
     if sequence:
-        complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+        complement = {'A': 'U', 'C': 'G', 'G': 'C', 'U': 'A'}
         return ''.join(complement[base] for base in sequence)[::-1]
     else:
             return ""
@@ -192,6 +195,7 @@ def get_longest_peptide(rna_sequence, genetic_code):
     str
         A string of the longest sequence of amino acids encoded by
         `rna_sequence`.
+        ******REVIEW FAILING 5 TESTS******
     """
     # Initialize variables
     longest_peptide = ""
