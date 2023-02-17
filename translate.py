@@ -81,6 +81,7 @@ def get_all_translations(rna_sequence, genetic_code):
     # Iterate over all possible reading frames
     for frame in range(3):
         # Extract subsequence for current reading frame
+        rna_sequence=rna_sequence.upper()
         sub_sequence = rna_sequence[frame:]
         
         # Check if subsequence is long enough to encode an amino acid
@@ -146,7 +147,7 @@ def get_complement(sequence):
     """
     if  sequence:
         complement = {'A': 'U', 'C': 'G', 'G': 'C', 'U': 'A'}
-        rna_complement = "".join([complement[base] for base in sequence])
+        rna_complement = "".join([complement[base] for base in sequence.upper()])
         return rna_complement
     else:
          return ""
@@ -165,7 +166,7 @@ def reverse_and_complement(sequence):
     """
     if sequence:
         complement = {'A': 'U', 'C': 'G', 'G': 'C', 'U': 'A'}
-        return ''.join(complement[base] for base in sequence)[::-1]
+        return ''.join(complement[base] for base in sequence.upper())[::-1]
     else:
             return ""
 
@@ -195,7 +196,6 @@ def get_longest_peptide(rna_sequence, genetic_code):
     str
         A string of the longest sequence of amino acids encoded by
         `rna_sequence`.
-        ******REVIEW FAILING 5 TESTS******
     """
     # Initialize variables
     longest_peptide = ""
