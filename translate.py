@@ -200,20 +200,22 @@ def get_longest_peptide(rna_sequence, genetic_code):
     
     # Translate each reading frame and append them all into a list of sequences
     #Provide rna_sequence to sequence for use in the reverse_and_complement function
-    sequence=rna_sequence
+    AT=[]
+    longest_peptide=''
     #Obtain reverse compliment of sequence
-    RC=reverse_and_complement(sequence.upper())
+    RC=reverse_and_complement(rna_sequence)
     #get all translations of the rna-sequence
-    ATRS=get_all_translations(rna_sequence.upper(), genetic_code)
+    ATRS=get_all_translations(rna_sequence, genetic_code)
     #redefine rna_sequence with the reverse compliment
     rna_sequence=RC
     #get all translations fo the reverse compliment
-    ATRC= get_all_translations(rna_sequence.upper(), genetic_code)
+    ATRC= get_all_translations(rna_sequence, genetic_code)
     #Build list of "All Translations (AT)"
-    AT=ATRC.append(ATRS)
+    AT=ATRC + ATRS
 #Search total list for longest member
-    longest_peptide = max(AT, key=len)
-    print(longest_peptide)
+    if AT:
+        longest_peptide = max(AT, key=len)
+    return longest_peptide
     
 
 
