@@ -197,32 +197,24 @@ def get_longest_peptide(rna_sequence, genetic_code):
         A string of the longest sequence of amino acids encoded by
         `rna_sequence`.
     """
-    # Initialize variables
-    longest_peptide = ""
-    codon_length = 3
-     # Explore all six reading frames
-    for frame in range(6):
-        # Determine the RNA sequence and reading direction
-        if frame < 3:
-            rna = rna_sequence[frame:]
-            direction = 1
-        else:
-            rna = reverse_and_complement(rna_sequence)[frame-3:]
-            direction = -1
-
-        # Translate the RNA sequence into amino acids
-        peptide = ""
-        for i in range(0, len(rna), codon_length):
-            codon = rna[i:i+codon_length]
-            amino_acid = genetic_code.get(codon.upper(), "*")
-            if amino_acid == "*":
-                break
-            peptide += amino_acid
-        
-        if len(peptide) > len(longest_peptide):
-            longest_peptide = peptide
-
-    return longest_peptide
+    
+    # Translate each reading frame and append them all into a list of sequences
+    #Provide rna_sequence to sequence for use in the reverse_and_complement function
+    sequence=rna_sequence
+    #Obtain reverse compliment of sequence
+    RC=reverse_and_complement(sequence.upper())
+    #get all translations of the rna-sequence
+    ATRS=get_all_translations(rna_sequence.upper(), genetic_code)
+    #redefine rna_sequence with the reverse compliment
+    rna_sequence=RC
+    #get all translations fo the reverse compliment
+    ATRC= get_all_translations(rna_sequence.upper(), genetic_code)
+    #Build list of "All Translations (AT)"
+    AT=ATRC.append(ATRS)
+#Search total list for longest member
+    longest_peptide = max(AT, key=len)
+    print(longest_peptide)
+    
 
 
 if __name__ == '__main__':
