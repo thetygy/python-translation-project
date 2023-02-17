@@ -127,7 +127,7 @@ def get_reverse(sequence):
     """
     reverse = sequence[::-1]
     reverse = reverse.upper()
-    return sequence[::-1]
+    return reverse
     # if sequence:
     #    return sequence[::-1]
     #    else:
