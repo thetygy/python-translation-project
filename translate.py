@@ -34,10 +34,10 @@ def translate_sequence(rna_sequence, genetic_code):
     for i in range(0, len(rna_sequence), 3):
         codon = rna_sequence[i:i+3]
         amino_acid = genetic_code.get(codon.upper(),"")
-        if amino_acid == "*":
-            break
-        else:
+        if amino_acid != "*":
             amino_acid_sequence += amino_acid
+        else:
+            break
 
     return amino_acid_sequence
 
