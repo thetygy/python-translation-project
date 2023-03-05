@@ -207,13 +207,15 @@ def find_first_orf(sequence,
     # exactly. Change `orf_pattern_str` so that it will match any open reading
     # frame.
     # Read the docstring above for additional clues.
-    orf_pattern_str = r'(AUG([ACGU]{3})(UAA|UAG|UGA))'
+    orf_pattern_str = r'(^(AUG)[AUGC]+(UAA|UAG|UGA)$)'
     ##########################################################################
+    #(?:AUG([ACGU]{3})(?!UAA|UAG|UGA))
 
     # Create the regular expression object
     orf_pattern = re.compile(orf_pattern_str)
     # Search the sequence
     match_object = orf_pattern.search(seq)
+    print(match_object)
     if match_object:
         return match_object.group()
     return ''
