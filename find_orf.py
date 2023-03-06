@@ -72,7 +72,6 @@ def vet_nucleotide_sequence(sequence):
         raise Exception("Invalid sequence: {0!r}".format(sequence))
 
 
-
 def vet_codon(codon):
     """
     Return None if `codon` is a valid RNA codon, else raise an exception. 
