@@ -59,6 +59,9 @@ def main():
     if not args.stop_codon:
         args.stop_codon = default_stop_codons
 
+    #Apply find_first_orf
+    sequence=find_orf.find_first_orf(sequence)
+    #Apply translate_sequence
     translated_sequence = translate.translate_sequence(sequence, genetic_code)
     print(translated_sequence)
 
